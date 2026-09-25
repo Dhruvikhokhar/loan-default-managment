@@ -1,4 +1,4 @@
-import joblib
+import pickle
 from pathlib import Path
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
-MODEL_PATH = Path(__file__).with_name('loan_model.joblib')
+MODEL_PATH = Path(__file__).with_name('loan_model.pkl')
 
 class APIService:
     """Train/cache the random-forest model and serve UI predictions."""
@@ -21,7 +21,8 @@ class APIService:
         # Load pre-trained model artifact if available
         if MODEL_PATH.exists():
             try:
-                data_dict = joblib.load(MODEL_PATH)
+                with open(MODEL_PATH, 'rb') as f:
+                    data_dict = pickle.load(f)
                 self.model = data_dict['model']
                 self.features = data_dict['features']
                 return
@@ -56,7 +57,8 @@ class APIService:
         self.model.fit(X, y)
         self.features = X.columns.tolist()
         try:
-            joblib.dump({'model': self.model, 'features': self.features}, MODEL_PATH, compress=3)
+            with open(MODEL_PATH, 'wb') as f:
+                pickle.dump({'model': self.model, 'features': self.features}, f)
         except Exception:
             pass
 
