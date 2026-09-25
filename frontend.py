@@ -149,6 +149,16 @@ st.markdown(f"""
         color: {text_color} !important;
         font-size: 14px;
     }}
+    .stCaption, [data-testid="stCaptionContainer"],
+    [data-testid="stMarkdownContainer"] small {
+        color: {subtitle_color} !important;
+    }
+    [data-testid="stTextInput"] label,
+    [data-testid="stNumberInput"] label,
+    [data-testid="stSelectbox"] label,
+    [data-testid="stMultiSelect"] label {
+        color: {text_color} !important;
+    }
     .subtext {{
         color: {subtitle_color} !important;
         font-size: 13px;
@@ -173,6 +183,52 @@ st.markdown(f"""
         border: 1px solid {border_color} !important;
         color: {text_color} !important;
         border-radius: 10px !important;
+    }}
+    div[data-baseweb="input"] input,
+    div[data-baseweb="select"] input,
+    div[data-baseweb="select"] span,
+    div[data-baseweb="select"] svg {{
+        color: {text_color} !important;
+    }}
+    input::placeholder {{
+        color: {subtitle_color} !important;
+    }}
+    div[data-baseweb="select"] span {{
+        color: {text_color} !important;
+    }}
+    [data-baseweb="popover"] > div,
+    [data-baseweb="menu"],
+    [role="listbox"],
+    [role="option"] {{
+        background: {card_bg} !important;
+        color: {text_color} !important;
+    }}
+    [role="option"]:hover,
+    [role="option"][aria-selected="true"] {{
+        background: {hover_bg} !important;
+        color: {text_color} !important;
+    }}
+    [data-testid="stAlert"] {{
+        background: {card_bg} !important;
+        border: 1px solid {border_color} !important;
+        color: {text_color} !important;
+    }}
+    [data-testid="stAlert"] p,
+    [data-testid="stAlert"] div {{
+        color: {text_color} !important;
+    }}
+    button[data-testid="stBaseButton-secondary"] {{
+        background: {card_bg} !important;
+        color: {text_color} !important;
+        border: 1px solid {border_color} !important;
+    }}
+    button[data-testid="stBaseButton-secondary"]:hover {{
+        background: {hover_bg} !important;
+        border-color: #2563eb !important;
+        color: {text_color} !important;
+    }}
+    [data-testid="stDataFrame"] {{
+        border: 1px solid {border_color} !important;
     }}
 
     /* Stat Cards */
@@ -483,10 +539,19 @@ def format_plotly(fig):
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(family="Plus Jakarta Sans", color=text_color, size=12),
         margin=dict(l=10, r=10, t=30, b=10),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(
+            orientation="h", yanchor="bottom", y=1.02,
+            xanchor="right", x=1, font=dict(color=text_color)
+        )
     )
-    fig.update_xaxes(showgrid=True, gridcolor=border_color, zeroline=False)
-    fig.update_yaxes(showgrid=True, gridcolor=border_color, zeroline=False)
+    fig.update_xaxes(
+        showgrid=True, gridcolor=border_color, zeroline=False,
+        color=text_color, linecolor=border_color
+    )
+    fig.update_yaxes(
+        showgrid=True, gridcolor=border_color, zeroline=False,
+        color=text_color, linecolor=border_color
+    )
     return fig
 
 
