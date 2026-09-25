@@ -30,6 +30,7 @@ if not csv_target.exists():
             except Exception:
                 pass
 
+@st.cache_data(show_spinner=False)
 def get_dataset():
     if csv_target.exists():
         try:
@@ -682,13 +683,18 @@ elif st.session_state.page == "Predict Loan":
                         </div>
                     """, unsafe_allow_html=True)
 
+        pred_color = "#10b981" if is_approved else "#ef4444"
+        pred_label = "Not Likely to Default" if is_approved else "Likely to Default"
+        risk_badge_class = "badge-approved" if is_approved else "badge-rejected"
+        risk_text = res.get('risk', 'Low')
+
         with res_c2:
             with st.container(border=True):
                 st.markdown("<b>Prediction Details</b>", unsafe_allow_html=True)
                 st.markdown(f"""
                     <div style='line-height:2.2; font-size:13px; margin-top:8px;'>
-                        <div style='display:flex; justify-content:space-between;'><span>Prediction</span><span style='font-weight:700; color:{"#10b981" if is_approved else "#ef4444"};'>{"Not Likely to Default" if is_approved else "Likely to Default"}</span></div>
-                        <div style='display:flex; justify-content:space-between;'><span>Risk Level</span><span class='{"badge-approved" if is_approved else "badge-rejected"}'>{res['risk']}</span></div>
+                        <div style='display:flex; justify-content:space-between;'><span>Prediction</span><span style='font-weight:700; color:{pred_color};'>{pred_label}</span></div>
+                        <div style='display:flex; justify-content:space-between;'><span>Risk Level</span><span class='{risk_badge_class}'>{risk_text}</span></div>
                         <div style='display:flex; justify-content:space-between;'><span>Probability of Default</span><span style='font-weight:700;'>{100 - prob_pct if is_approved else prob_pct:.1f}%</span></div>
                         <div style='display:flex; justify-content:space-between;'><span>Model Confidence</span><span style='font-weight:700;'>92%</span></div>
                     </div>
@@ -713,7 +719,7 @@ elif st.session_state.page == "Predict Loan":
 
         p1, p2, p3, p4 = st.columns(4)
         p1.markdown(f"<div class='stat-box' style='text-align:center;'><div>📊 <b>{100 - prob_pct if is_approved else prob_pct:.1f}%</b></div><div class='stat-lbl'>Default Probability</div></div>", unsafe_allow_html=True)
-        p2.markdown(f"<div class='stat-box' style='text-align:center;'><div>🛡️ <b style='color:{"#10b981" if is_approved else "#ef4444"};'>{res['risk']}</b></div><div class='stat-lbl'>Risk Level</div></div>", unsafe_allow_html=True)
+        p2.markdown(f"<div class='stat-box' style='text-align:center;'><div>🛡️ <b style='color:{pred_color};'>{risk_text}</b></div><div class='stat-lbl'>Risk Level</div></div>", unsafe_allow_html=True)
         p3.markdown("<div class='stat-box' style='text-align:center;'><div>🎯 <b>92%</b></div><div class='stat-lbl'>Model Confidence</div></div>", unsafe_allow_html=True)
         p4.markdown("<div class='stat-box' style='text-align:center;'><div>⏱️ <b>~ 2s</b></div><div class='stat-lbl'>Prediction Time</div></div>", unsafe_allow_html=True)
 
