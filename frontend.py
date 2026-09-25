@@ -150,15 +150,15 @@ st.markdown(f"""
         font-size: 14px;
     }}
     .stCaption, [data-testid="stCaptionContainer"],
-    [data-testid="stMarkdownContainer"] small {
+    [data-testid="stMarkdownContainer"] small {{
         color: {subtitle_color} !important;
-    }
+    }}
     [data-testid="stTextInput"] label,
     [data-testid="stNumberInput"] label,
     [data-testid="stSelectbox"] label,
-    [data-testid="stMultiSelect"] label {
+    [data-testid="stMultiSelect"] label {{
         color: {text_color} !important;
-    }
+    }}
     .subtext {{
         color: {subtitle_color} !important;
         font-size: 13px;
@@ -511,7 +511,7 @@ with st.container():
         for idx, page_item in enumerate(pages):
             is_active = st.session_state.page == page_item
             dis_name = nav_labels[page_item]
-            if btn_cols[idx].button(dis_name, key=f"nav_top_btn_{page_item}", type="primary" if is_active else "secondary", use_container_width=True):
+            if btn_cols[idx].button(dis_name, key=f"nav_top_btn_{page_item}", type="primary" if is_active else "secondary", width="stretch"):
                 st.session_state.page = page_item
                 if page_item != "Predict Loan":
                     st.session_state.prediction_status = "idle"
@@ -521,7 +521,7 @@ with st.container():
         c_th, c_usr = st.columns([1.2, 1])
         with c_th:
             theme_btn_lbl = "🌙 Dark" if st.session_state.theme == "light" else "☀️ Light"
-            if st.button(theme_btn_lbl, key="top_theme_toggle", use_container_width=True):
+            if st.button(theme_btn_lbl, key="top_theme_toggle", width="stretch"):
                 st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
                 st.rerun()
         with c_usr:
@@ -584,11 +584,11 @@ if st.session_state.page == "Overview":
         """, unsafe_allow_html=True)
         hbtn1, hbtn2, _ = st.columns([1.3, 1.3, 1.4])
         with hbtn1:
-            if st.button("🚀 Predict Loan Risk →", type="primary", use_container_width=True):
+            if st.button("🚀 Predict Loan Risk →", type="primary", width="stretch"):
                 st.session_state.page = "Predict Loan"
                 st.rerun()
         with hbtn2:
-            if st.button("🎛️ View Dashboard", use_container_width=True):
+            if st.button("🎛️ View Dashboard", width="stretch"):
                 st.session_state.page = "Analytics"
                 st.rerun()
 
@@ -680,7 +680,7 @@ if st.session_state.page == "Overview":
                 color_discrete_sequence=['#2563eb', '#ef4444', '#f59e0b']
             )
             format_plotly(fig_pie)
-            st.plotly_chart(fig_pie, use_container_width=True)
+            st.plotly_chart(fig_pie, width="stretch")
 
     with ch_col2:
         with st.container(border=True):
@@ -695,7 +695,7 @@ if st.session_state.page == "Overview":
                 color_discrete_sequence=['#2563eb']
             )
             format_plotly(fig_bar)
-            st.plotly_chart(fig_bar, use_container_width=True)
+            st.plotly_chart(fig_bar, width="stretch")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -792,11 +792,11 @@ elif st.session_state.page == "Predict Loan":
         
         btn_act1, btn_act2 = st.columns([1, 1])
         with btn_act1:
-            if st.button("🔄 Make Another Prediction", type="primary", use_container_width=True):
+            if st.button("🔄 Make Another Prediction", type="primary", width="stretch"):
                 st.session_state.prediction_status = "idle"
                 st.rerun()
         with btn_act2:
-            if st.button("📊 View Dashboard", use_container_width=True):
+            if st.button("📊 View Dashboard", width="stretch"):
                 st.session_state.page = "Analytics"
                 st.rerun()
 
@@ -848,7 +848,7 @@ elif st.session_state.page == "Predict Loan":
                     loan_term = st.number_input("📅 Loan Term (Months)", 12, 600, 360, step=12)
 
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("🔮 Predict Loan Default", type="primary", use_container_width=True):
+            if st.button("🔮 Predict Loan Default", type="primary", width="stretch"):
                 credit_score = 720 if "1" in credit_history else 580
                 payload = {
                     "Age": age, "Income": income, "LoanAmount": loan_amount,
@@ -921,21 +921,21 @@ elif st.session_state.page == "Analytics":
     with c_r1_1:
         with st.container(border=True):
             st.markdown("#### 📊 Loan Status Distribution")
-            st.plotly_chart(st.session_state.charts.build_approval_donut(csv_df, st.session_state.theme), use_container_width=True)
+            st.plotly_chart(st.session_state.charts.build_approval_donut(csv_df, st.session_state.theme), width="stretch")
     with c_r1_2:
         with st.container(border=True):
             st.markdown("#### 📊 Default Risk by Income Category")
-            st.plotly_chart(st.session_state.charts.build_income_dist(csv_df, st.session_state.theme), use_container_width=True)
+            st.plotly_chart(st.session_state.charts.build_income_dist(csv_df, st.session_state.theme), width="stretch")
 
     c_r2_1, c_r2_2 = st.columns(2)
     with c_r2_1:
         with st.container(border=True):
             st.markdown("#### 📊 Loan Amount Distribution")
-            st.plotly_chart(st.session_state.charts.build_loan_amt_dist(csv_df, st.session_state.theme), use_container_width=True)
+            st.plotly_chart(st.session_state.charts.build_loan_amt_dist(csv_df, st.session_state.theme), width="stretch")
     with c_r2_2:
         with st.container(border=True):
             st.markdown("#### 📊 Approval Rate by Education")
-            st.plotly_chart(st.session_state.charts.build_education_vs_approval(csv_df, st.session_state.theme), use_container_width=True)
+            st.plotly_chart(st.session_state.charts.build_education_vs_approval(csv_df, st.session_state.theme), width="stretch")
 
 
 # ================= PAGE 4: MODEL INSIGHTS =================
@@ -963,7 +963,7 @@ elif st.session_state.page == "Model Insights":
             }).sort_values('Importance (%)')
             fig_fi = px.bar(feat_df, x='Importance (%)', y='Feature', orientation='h', color_discrete_sequence=['#2563eb'])
             format_plotly(fig_fi)
-            st.plotly_chart(fig_fi, use_container_width=True)
+            st.plotly_chart(fig_fi, width="stretch")
 
     with col_comp:
         with st.container(border=True):
@@ -977,7 +977,7 @@ elif st.session_state.page == "Model Insights":
             })
             fig_comp = px.bar(comp_df, x='Model', y=['Accuracy', 'Precision', 'Recall'], barmode='group', color_discrete_sequence=['#2563eb', '#10b981', '#8b5cf6'])
             format_plotly(fig_comp)
-            st.plotly_chart(fig_comp, use_container_width=True)
+            st.plotly_chart(fig_comp, width="stretch")
 
 
 # ================= PAGE 5: APPLICATIONS =================
@@ -995,7 +995,7 @@ elif st.session_state.page == "Applications":
         with sc3:
             risk_flt = st.selectbox("Risk Level", ["All Risk Levels", "Low", "Medium", "High"], label_visibility="collapsed")
         with sc4:
-            st.button("🔍 Search", type="primary", use_container_width=True)
+            st.button("🔍 Search", type="primary", width="stretch")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1121,11 +1121,11 @@ elif st.session_state.page == "Settings":
         st.caption("Select your preferred visual layout mode.")
         th1, th2 = st.columns(2)
         with th1:
-            if st.button("☀️ Light Mode", type="primary" if st.session_state.theme == "light" else "secondary", use_container_width=True):
+            if st.button("☀️ Light Mode", type="primary" if st.session_state.theme == "light" else "secondary", width="stretch"):
                 st.session_state.theme = "light"
                 st.rerun()
         with th2:
-            if st.button("🌙 Dark Mode", type="primary" if st.session_state.theme == "dark" else "secondary", use_container_width=True):
+            if st.button("🌙 Dark Mode", type="primary" if st.session_state.theme == "dark" else "secondary", width="stretch"):
                 st.session_state.theme = "dark"
                 st.rerun()
 
