@@ -144,6 +144,9 @@ st.markdown(f"""
         min-width: 0 !important;
         max-width: 100% !important;
     }}
+    [data-testid="stHorizontalBlock"] > [data-testid="column"] {{
+        flex-shrink: 1 !important;
+    }}
     
     /* Typography */
     h1, h2, h3, h4, h5, h6, p, label {{
@@ -173,6 +176,7 @@ st.markdown(f"""
 
     /* Compact guidance cards stay readable in narrow columns. */
     .side-info-card {{
+        display: block !important;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -185,6 +189,7 @@ st.markdown(f"""
         box-shadow: {card_shadow};
         overflow-wrap: anywhere;
         word-break: normal;
+        white-space: normal !important;
     }}
     .side-info-title {{
         color: {text_color};
@@ -856,7 +861,7 @@ elif st.session_state.page == "Predict Loan":
         st.caption("Enter applicant details below to get the loan default prediction using our machine learning model.")
         st.markdown("<br>", unsafe_allow_html=True)
 
-        col_input, col_side = st.columns([2.2, 1])
+        col_input, col_side = st.columns([1.8, 1])
 
         with col_input:
             with st.container(border=True):
