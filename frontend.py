@@ -138,7 +138,12 @@ st.markdown(f"""
     /* Hide Default Chrome */
     [data-testid="stSidebar"] {{ display: none !important; }}
     header[data-testid="stHeader"] {{ display: none !important; }}
-    .block-container {{ padding-top: 1rem !important; padding-bottom: 2rem !important; max-width: 96% !important; }}
+    .block-container {{ padding-top: 1rem !important; padding-bottom: 2rem !important; max-width: 96% !important; overflow-x: hidden !important; }}
+    [data-testid="stHorizontalBlock"],
+    [data-testid="column"] {{
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }}
     
     /* Typography */
     h1, h2, h3, h4, h5, h6, p, label {{
@@ -163,6 +168,40 @@ st.markdown(f"""
         color: {subtitle_color} !important;
         font-size: 13px;
         line-height: 1.5;
+        overflow-wrap: anywhere;
+    }}
+
+    /* Compact guidance cards stay readable in narrow columns. */
+    .side-info-card {{
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        background: {card_bg};
+        border: 1px solid {border_color};
+        border-left: 3px solid #2563eb;
+        border-radius: 14px;
+        box-shadow: {card_shadow};
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }}
+    .side-info-title {{
+        color: {text_color};
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 8px;
+    }}
+    .side-info-body {{
+        color: {subtitle_color};
+        font-size: 12px;
+        line-height: 1.55;
+        overflow-wrap: anywhere;
+    }}
+    .side-info-card b {{
+        color: {text_color};
+        font-weight: 700;
     }}
 
     /* Card Containers */
@@ -476,6 +515,18 @@ st.markdown(f"""
     .float-sub {{
         font-size: 10px;
         color: {subtitle_color};
+    }}
+
+    @media (max-width: 900px) {{
+        .block-container {{
+            max-width: 100% !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }}
+        .hero-card-container {{ padding: 24px !important; }}
+        .hero-headline {{ font-size: 28px; }}
+        .hero-image-wrapper {{ width: 100% !important; max-width: 100%; }}
+        .top-nav-box {{ padding-left: 10px; padding-right: 10px; overflow: hidden; }}
     }}
 </style>
 """, unsafe_allow_html=True)
